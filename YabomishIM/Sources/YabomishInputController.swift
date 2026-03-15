@@ -1,8 +1,6 @@
 import Cocoa
 import InputMethodKit
 
-private let kMaxCodeLength = 4
-
 /// Hardware keyCode → QWERTY character mapping (layout-independent)
 private let keyCodeToChar: [UInt16: Character] = [
     0: "a", 1: "s", 2: "d", 3: "f", 4: "h", 5: "g", 6: "z", 7: "x",
@@ -376,7 +374,7 @@ class YabomishInputController: IMKInputController {
         }
 
         let newComposing = composing + char
-        let maxLen = isSameSoundMode ? kMaxCodeLength + 1 : kMaxCodeLength
+        let maxLen = isSameSoundMode ? YabomishPrefs.maxCodeLength + 1 : YabomishPrefs.maxCodeLength
 
         if newComposing.count > maxLen {
             if !currentCandidates.isEmpty {
@@ -394,7 +392,7 @@ class YabomishInputController: IMKInputController {
 
         refreshCandidates()
 
-        if currentCandidates.isEmpty && composing.count >= kMaxCodeLength && !isWildcard {
+        if currentCandidates.isEmpty && composing.count >= YabomishPrefs.maxCodeLength && !isWildcard {
             NSSound.beep()
             resetComposing(client: client)
             return true

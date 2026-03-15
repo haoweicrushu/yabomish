@@ -79,6 +79,15 @@ final class PrefsWindow: NSPanel {
         toastLabel.tag = 102
         stack.addArrangedSubview(row("模式提示大小", hStack(toastLabel, toastStepper)))
 
+        // — 最大碼長 —
+        let codeLenStepper = NSStepper(frame: .zero)
+        codeLenStepper.minValue = 2; codeLenStepper.maxValue = 10; codeLenStepper.increment = 1
+        codeLenStepper.integerValue = YabomishPrefs.maxCodeLength
+        codeLenStepper.target = self; codeLenStepper.action = #selector(maxCodeLengthChanged(_:))
+        let codeLenLabel = NSTextField(labelWithString: "\(YabomishPrefs.maxCodeLength)")
+        codeLenLabel.tag = 103
+        stack.addArrangedSubview(row("最大碼長", hStack(codeLenLabel, codeLenStepper)))
+
         // — 自動送字 —
         let autoBtn = NSButton(checkboxWithTitle: "滿碼自動送字", target: self, action: #selector(autoCommitChanged(_:)))
         autoBtn.state = YabomishPrefs.autoCommit ? .on : .off
@@ -165,6 +174,11 @@ final class PrefsWindow: NSPanel {
     @objc private func toastSizeChanged(_ sender: NSStepper) {
         YabomishPrefs.toastFontSize = CGFloat(sender.doubleValue)
         findLabel(tag: 102)?.stringValue = "\(sender.integerValue) pt"
+    }
+
+    @objc private func maxCodeLengthChanged(_ sender: NSStepper) {
+        YabomishPrefs.maxCodeLength = sender.integerValue
+        findLabel(tag: 103)?.stringValue = "\(sender.integerValue)"
     }
 
     @objc private func autoCommitChanged(_ sender: NSButton) {

@@ -92,6 +92,12 @@ struct YabomishPrefs {
         set { defaults.set(newValue, forKey: "iconDirection") }
     }
 
+    /// Maximum input code length (default 4)
+    static var maxCodeLength: Int {
+        get { defaults.object(forKey: "maxCodeLength") as? Int ?? 4 }
+        set { defaults.set(newValue, forKey: "maxCodeLength") }
+    }
+
     /// Debug mode: write detailed logs to ~/Library/YabomishIM/debug.log
     static var debugMode: Bool {
         get { defaults.object(forKey: "debugMode") as? Bool ?? false }
