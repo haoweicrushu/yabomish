@@ -374,7 +374,8 @@ class YabomishInputController: IMKInputController {
         }
 
         let newComposing = composing + char
-        let maxLen = isSameSoundMode ? YabomishPrefs.maxCodeLength + 1 : YabomishPrefs.maxCodeLength
+        let baseMaxLen = YabomishPrefs.maxCodeLength
+        let maxLen = isSameSoundMode ? baseMaxLen + 1 : baseMaxLen
 
         if newComposing.count > maxLen {
             if !currentCandidates.isEmpty {
@@ -392,7 +393,7 @@ class YabomishInputController: IMKInputController {
 
         refreshCandidates()
 
-        if currentCandidates.isEmpty && composing.count >= YabomishPrefs.maxCodeLength && !isWildcard {
+        if currentCandidates.isEmpty && composing.count >= maxLen && !isWildcard {
             NSSound.beep()
             resetComposing(client: client)
             return true
